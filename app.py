@@ -1,9 +1,12 @@
 from flask import Flask, render_template, Response, request, jsonify
+from flask_cors import CORS
 import cv2
 import numpy as np
 import base64
 
 app = Flask(__name__)
+
+CORS(app, resources={r"/api/*":{"origins":"*"}})
 
 def dehaze(frame, omega=0.95, tmin=0.1, gamma=1.0, color_balance=None):
     # Step 1: Calculate the dark channel
@@ -63,7 +66,7 @@ def index():
 def video_feed():
     return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-@app.route('/process_frame', methods=['POST'])
+@app.route('/api/process_frame', methods=['POST'])
 def process_frame():
     data = request.get_json()
     image_data = data['image_data'].split(',')[1]  # Remove the "data:image/jpeg;base64," prefix
