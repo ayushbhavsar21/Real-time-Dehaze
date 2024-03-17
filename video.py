@@ -2,10 +2,6 @@ import cv2
 import math
 import numpy as np
 import sys
-from pytube import YouTubepytu
-
-
-
 
 def apply_mask(matrix, mask, fill_value):
     #print("MATRIX=", matrix)
@@ -73,19 +69,8 @@ def simplest_cb(img, percent):
         out_channels.append(normalized)
 
     return cv2.merge(out_channels)
-
-# Example YouTube video URL
-youtube_url = 'https://www.youtube.com/watch?v=example'
-
-# Using pytube to get a streamable URL
-yt = YouTube(youtube_url)
-stream = yt.streams.filter(file_extension='mp4').first()
-direct_video_url = stream.url
-
-# Now, use this URL with VideoCapture (this might not always work due to restrictions)
-
 if __name__ == '__main__':
-    cap = cv2.VideoCapture(direct_video_url)
+    cap = cv2.VideoCapture('./assets/Whale.mov')
     
     # Get screen size to resize the window
     screen_width = 1920  # Assume a screen width, or use a method to get actual size
