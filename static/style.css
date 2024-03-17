@@ -1,0 +1,13 @@
+body{
+    background: #DFC5FE;
+}
+
+#video-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+#original-frame, #dehazed-frame {
+    margin: 0 10px;
+}
