@@ -5,8 +5,7 @@ import numpy as np
 import base64
 
 app = Flask(__name__)
-
-CORS(app, resources={r"/api/*":{"origins":"*"}})
+CORS(app)  # Allow all origins during development
 
 def dehaze(frame, omega=0.95, tmin=0.1, gamma=1.0, color_balance=None):
     # Step 1: Calculate the dark channel
@@ -74,7 +73,7 @@ def process_frame():
     frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
     # Perform dehazing on the frame
-    dehazed_frame = dehaze(frame, omega=0.5, tmin=0.1, gamma=1.5, color_balance=True)
+    dehazed_frame = dehaze(frame, omega=0.5, tmin=0.05, gamma=1.5, color_balance=True)
 
     # Encode the dehazed frame to base64 for sending to the client
     _, buffer = cv2.imencode('.jpg', dehazed_frame)
