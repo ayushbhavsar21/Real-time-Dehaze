@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Dehazing Platform</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+    <h1>Real-time Dehazing Platform</h1>
+    <div id="upload-container">
+        <input type="file" id="video-upload" accept="video/*">
+        <button onclick="uploadVideo()">Upload Video</button>
+    </div>
+    <div id="video-container">
+        <div id="original-frame">
+            <h3>Original Frame</h3>
+            <video id="original-video" autoplay playsinline width="640" height="480"></video>
+        </div>
+        <div id="dehazed-frame">
+            <h3>Dehazed Frame</h3>
+            <img id="dehazed-image" src="" width="640" height="480">
+        </div>
+    </div>
+    <script>
+        var video = document.getElementById('original-video');
+        var dehazedImage = document.getElementById('dehazed-image');
+
+        function uploadVideo() {
+            var fileInput = document.getElementById('video-upload');
+            var file = fileInput.files[0];
+
+            var formData = new FormData();
+            formData.append('video_file', file);  // Use 'video_file' as the key
+
+            fetch('/api/upload_video', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error uploading video');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Display dehazed frame
+                dehazedImage.src = 'data:image/jpeg;base64,' + data.dehazed_image;
+            })
+            .catch(error => {
+                console.error('Error uploading video:', error);
+            });
+        }
+    </script>
+</body>
+</html>
