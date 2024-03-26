@@ -36,7 +36,15 @@ def create_app():
         
         # Color balance
         if color_balance is not None:
-            recovered_image = cv2.xphoto.createSimpleWB().balanceWhite(recovered_image.astype(np.uint8))  # Convert to compatible data type
+            try:
+                # Use xphoto module for color balance
+                wb = cv2.xphoto.createSimpleWB()
+                recovered_image = wb.balanceWhite(recovered_image.astype(np.uint8))
+            except AttributeError:
+                # Fallback if xphoto module or function is not available
+                print("Warning: xphoto module or balanceWhite function not available. Using default color balance.")
+                # Implement custom or alternative color balance here if needed
+                pass
         
         return recovered_image
 
