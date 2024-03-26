@@ -1,8 +1,10 @@
 from typing import Final
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
+import os
 
-TOKEN: Final = '7186069725:AAHHOV7AHoMf5K0mpdlh8MckI4CzPmbf9Bs'  # Replace 'YOUR_TELEGRAM_BOT_TOKEN' with your actual token
+TOKEN: Final= os.getenv('TOKEN')
+
 BOT_USERNAME: Final = '@firbrig_bot'
 
 # Commands
